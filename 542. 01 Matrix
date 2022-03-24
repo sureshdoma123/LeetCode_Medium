@@ -1,0 +1,35 @@
+#DFS Solution
+
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        def fun(i, j, distance):
+            if i<0 or i>=m:
+                return False
+            if j<0 or j>=n:
+                return False
+            if dp[i][j]!=-1:
+                return False
+            dp[i][j]=distance
+            return True
+        m,n=len(mat),len(mat[0])
+        dp=[[-1]*n for _ in range(m)]
+        distance,count=0,0
+        for i in range(m):
+            for j in range(n):
+                if mat[i][j]==0:
+                    count+=1
+                    dp[i][j]=0
+        while count<(m*n):
+            for i in range(m):
+                for j in range(n):
+                    if dp[i][j]==distance:
+                        if fun(i+1,j,distance+1):
+                            count+=1
+                        if fun(i-1,j,distance+1):
+                            count+=1
+                        if fun(i,j+1,distance+1):
+                            count+=1
+                        if fun(i,j-1,distance+1):
+                            count+=1
+            distance+=1
+        return dp
